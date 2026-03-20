@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Analytics</title>
+</head>
+
+<body>
+
+<h1>Interview Performance</h1>
+
+<ul>
+
+{% for score in scores %}
+
+<li>{{score[0]}}</li>
+
+{% endfor %}
+
+</ul>
+
+<a href="/dashboard">Back</a>
+
+</body>
+
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Interview</title>
+
+<link rel="stylesheet" href="/static/css/style.css">
+
+<script src="/static/js/voice.js"></script>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Interview Question</h2>
+
+<div class="question-box">
+
+<p>{{question}}</p>
+
+</div>
+
+<form action="/submit" method="POST">
+
+<textarea id="answer" name="answer" rows="6"
+placeholder="Type your answer or speak..."></textarea>
+
+<button type="submit">Submit Answer</button>
+
+<button type="button" onclick="startVoice()">
+🎤 Speak Answer
+</button>
+
+</form>
+
+</div>
+<h3>Video Interview</h3>
+
+<video id="camera" width="400" autoplay></video>
+
+<script>
+
+navigator.mediaDevices.getUserMedia({ video:true })
+.then(stream => {
+document.getElementById("camera").srcObject = stream;
+})
+
+</script>
+
+</body>
+
+</html>

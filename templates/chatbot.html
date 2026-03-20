@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>AI Voice Chatbot</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins';
+}
+
+body{
+background:linear-gradient(135deg,#4f46e5,#7c3aed);
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+color:white;
+}
+
+/* Container */
+.chat-container{
+width:420px;
+height:650px;
+background:rgba(255,255,255,0.1);
+backdrop-filter:blur(15px);
+border-radius:20px;
+display:flex;
+flex-direction:column;
+overflow:hidden;
+box-shadow:0 10px 30px rgba(0,0,0,0.3);
+}
+
+/* Header */
+.header{
+padding:15px;
+text-align:center;
+background:rgba(0,0,0,0.2);
+font-weight:bold;
+}
+
+/* Avatar */
+.avatar{
+text-align:center;
+font-size:50px;
+padding:10px;
+animation:float 2s infinite ease-in-out;
+}
+
+@keyframes float{
+0%{transform:translateY(0)}
+50%{transform:translateY(-8px)}
+100%{transform:translateY(0)}
+}
+
+/* Chat */
+.chat-box{
+flex:1;
+padding:15px;
+overflow-y:auto;
+}
+
+.message{
+margin:10px 0;
+padding:10px;
+border-radius:12px;
+max-width:70%;
+}
+
+.user{
+background:#22c55e;
+margin-left:auto;
+}
+
+.bot{
+background:#1e293b;
+}
+
+/* Input */
+.input-box{
+display:flex;
+padding:10px;
+background:rgba(0,0,0,0.2);
+}
+
+input{
+flex:1;
+padding:10px;
+border:none;
+border-radius:10px;
+outline:none;
+}
+
+button{
+margin-left:5px;
+padding:10px;
+border:none;
+border-radius:10px;
+background:#22c55e;
+color:white;
+cursor:pointer;
+}
+
+/* Mic animation */
+.mic.active{
+background:red;
+}
+/* Typing dots */
+.typing {
+display: flex;
+gap: 5px;
+padding: 10px;
+}
+
+.dot {
+width: 8px;
+height: 8px;
+background: white;
+border-radius: 50%;
+animation: blink 1.5s infinite;
+}
+
+.dot:nth-child(2){animation-delay:0.2s;}
+.dot:nth-child(3){animation-delay:0.4s;}
+
+@keyframes blink {
+0%{opacity:0.2;}
+50%{opacity:1;}
+100%{opacity:0.2;}
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="chat-container">
+
+<div class="header">🤖 AI Career Assistant</div>
+
+<div class="avatar">🤖</div>
+
+<div id="chat" class="chat-box"></div>
+
+<div class="input-box">
+<input id="msg" placeholder="Type or speak...">
+<button onclick="send()">Send</button>
+<button class="mic" onclick="startVoice()">🎤</button>
+<a href="/reset_chat">
+<button>Reset Chat</button>
+</a>
+</div>
+
+</div>
+
+<script>
+
+// 🔊 Speak AI reply
+function speak(text){
+    let speech = new SpeechSynthesisUtterance(text)
+    speech.lang = "en-US"
+    window.speechSynthesis.speak(speech)
+}
+
+// Typing animation
+function typeText(text){
+
+    let chat = document.getElementById("chat")
+
+    let msgDiv = document.createElement("div")
+    msgDiv.className = "message bot"
+    chat.appendChild(msgDiv)
+
+    let i = 0
+
+    function typing(){
+        if(i < text.length){
+            msgDiv.innerHTML += text.charAt(i)
+            i++
+            setTimeout(typing, 20)
+        } else {
+            speak(text)
+        }
+    }
+
+    typing()
+    chat.scrollTop = chat.scrollHeight
+}
+
+// Show typing dots
+function showTyping(){
+    let chat = document.getElementById("chat")
+
+    let typingDiv = document.createElement("div")
+    typingDiv.className = "message bot"
+    typingDiv.id = "typing"
+
+    typingDiv.innerHTML = `
+    <div class="typing">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
+    `
+
+    chat.appendChild(typingDiv)
+    chat.scrollTop = chat.scrollHeight
+}
+
+// ✅ MAIN SEND FUNCTION (FIXED)
+async function send(){
+
+    let input = document.getElementById("msg")
+    let message = input.value
+
+    if(message.trim() === "") return
+
+    let chat = document.getElementById("chat")
+
+    // user message
+    let userDiv = document.createElement("div")
+    userDiv.className = "message user"
+    userDiv.innerHTML = message
+    chat.appendChild(userDiv)
+
+    input.value = ""
+
+    // typing animation
+    showTyping()
+
+    try{
+        let response = await fetch("/chat", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ message: message })
+        })
+
+        let data = await response.json()
+
+        // remove typing
+        let typing = document.getElementById("typing")
+        if(typing) typing.remove()
+
+        // show AI reply
+        typeText(data.reply)
+
+    }catch(err){
+        console.error(err)
+        alert("Error connecting to chatbot")
+    }
+
+    chat.scrollTop = chat.scrollHeight
+}
+
+// 🎤 Voice input
+function startVoice(){
+
+    let micBtn = document.querySelector(".mic")
+
+    const recognition = new(window.SpeechRecognition || window.webkitSpeechRecognition)()
+
+    recognition.lang = "en-US"
+
+    micBtn.classList.add("active")
+
+    recognition.start()
+
+    recognition.onresult = function(event){
+        let text = event.results[0][0].transcript
+        document.getElementById("msg").value = text
+        micBtn.classList.remove("active")
+    }
+
+    recognition.onend = function(){
+        micBtn.classList.remove("active")
+    }
+}
+
+</script>
+
+</body>
+</html>

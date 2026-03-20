@@ -1,0 +1,31 @@
+{
+ "data analyst": [
+  {
+   "question": "What is data cleaning?",
+   "answer": "Data cleaning is the process of removing incorrect, duplicate or inconsistent data from a dataset."
+  },
+  {
+   "question": "What is regression analysis?",
+   "answer": "Regression analysis is a statistical method used to model the relationship between dependent and independent variables."
+  },
+  {
+   "question": "What is the difference between supervised and unsupervised learning?",
+   "answer": "Supervised learning uses labeled data while unsupervised learning works with unlabeled data."
+  }
+ ],
+
+ "software engineer": [
+  {
+   "question": "What is object oriented programming?",
+   "answer": "Object oriented programming organizes software design around objects and classes."
+  },
+  {
+   "question": "What is a REST API?",
+   "answer": "A REST API is an interface that allows communication between systems using HTTP methods."
+  },
+  {
+   "question": "What is multithreading?",
+   "answer": "Multithreading allows a program to run multiple threads concurrently."
+  }
+ ]
+}

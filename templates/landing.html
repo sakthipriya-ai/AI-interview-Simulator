@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>AI Platform</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+/* Background */
+body{
+height:100vh;
+background:linear-gradient(135deg,#4f46e5,#7c3aed);
+color:white;
+display:flex;
+justify-content:center;
+align-items:center;
+overflow:hidden;
+}
+
+/* Container */
+.container{
+text-align:center;
+animation:fadeIn 1s ease;
+}
+
+/* Title */
+h1{
+font-size:50px;
+margin-bottom:20px;
+}
+
+/* Subtitle */
+p{
+font-size:18px;
+opacity:0.9;
+margin-bottom:30px;
+}
+
+/* Buttons */
+.buttons{
+display:flex;
+justify-content:center;
+gap:20px;
+}
+
+button{
+padding:12px 25px;
+border:none;
+border-radius:30px;
+font-size:16px;
+cursor:pointer;
+transition:0.3s;
+}
+
+/* Primary */
+.login{
+background:#22c55e;
+color:white;
+}
+
+.login:hover{
+transform:scale(1.1);
+background:#16a34a;
+}
+
+/* Secondary */
+.signup{
+background:rgba(255,255,255,0.2);
+color:white;
+backdrop-filter:blur(10px);
+}
+
+.signup:hover{
+transform:scale(1.1);
+background:rgba(255,255,255,0.3);
+}
+
+/* Floating shapes */
+.circle{
+position:absolute;
+border-radius:50%;
+background:rgba(255,255,255,0.1);
+animation:float 6s infinite ease-in-out;
+}
+
+.c1{width:200px;height:200px;top:10%;left:10%;}
+.c2{width:150px;height:150px;bottom:15%;right:10%;}
+.c3{width:100px;height:100px;top:50%;left:80%;}
+
+@keyframes float{
+0%{transform:translateY(0);}
+50%{transform:translateY(-20px);}
+100%{transform:translateY(0);}
+}
+
+/* Fade animation */
+@keyframes fadeIn{
+from{opacity:0; transform:translateY(30px);}
+to{opacity:1; transform:translateY(0);}
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- Floating shapes -->
+<div class="circle c1"></div>
+<div class="circle c2"></div>
+<div class="circle c3"></div>
+
+<div class="container">
+
+<h1>🚀 AI Career Platform</h1>
+
+<p>Practice interviews, analyze resumes, and get AI career guidance</p>
+
+<div class="buttons">
+
+<form action="/login" method="GET">
+<button class="login">Login</button>
+</form>
+
+<form action="/signup" method="GET">
+<button class="signup">Sign Up</button>
+</form>
+
+</div>
+
+</div>
+
+</body>
+</html>
