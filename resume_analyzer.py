@@ -8,7 +8,7 @@ from job_recommender import recommend_jobs
 from skill_gap import detect_skill_gap
 
 # Load model
-model = SentenceTransformer("all-MiniLM-L6-v2")
+
 
 job_description = """
 Python SQL data analysis machine learning statistics
