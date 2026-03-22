@@ -1,8 +1,7 @@
 import pdfplumber
 import docx
 
-from sentence_transformers import SentenceTransformer
-from sklearn.metrics.pairwise import cosine_similarity
+
 
 from ats_scoring import ats_score
 from job_recommender import recommend_jobs
