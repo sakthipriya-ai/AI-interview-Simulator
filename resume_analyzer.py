@@ -49,11 +49,16 @@ def analyze_resume(filepath):
     resume_text = extract_text(filepath)
 
     # -------- AI Similarity --------
-    embeddings = model.encode([resume_text, job_description])
-    similarity = cosine_similarity(
-        [embeddings[0]],
-        [embeddings[1]]
-    )[0][0]
+   
+   # simple keyword-based similarity
+match_count = 0
+
+for skill in skills_db:
+    if skill in resume_text:
+        match_count += 1
+
+similarity = match_count / len(skills_db)
+   
 
     # -------- Skill Detection --------
     found_skills = []
